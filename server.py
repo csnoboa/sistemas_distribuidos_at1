@@ -16,6 +16,9 @@ class Server(object):
     def __init__(self):
         self.enquetes = []
         self.usuarios = []
+        #Thread para checat a cada 5 segundos, se alguma enquete expirou
+        t = Thread(target=self.checar_enquetes_expiradas)
+        t.start()
 
     # Pega o objeto do cliente (para utilizar seus metodos)
     def get_cliente_object(self, uri):
@@ -132,9 +135,11 @@ class Server(object):
 
     # Checa se alguma enquete ja está expirada
     def checar_enquetes_expiradas(self):
-        for enquete in self.enquetes:
-            if (time.time() - enquete.segundos) > enquete.data_limite and enquete.status != "Encerrada":
-                self.notificar_usuarios_enquete_acabou(enquete)
+        while True:
+            for enquete in self.enquetes:
+                if (time.time() - enquete.segundos) > enquete.data_limite and enquete.status != "Encerrada":
+                    self.notificar_usuarios_enquete_acabou(enquete)
+            time.sleep(5)
 
 
 def main():

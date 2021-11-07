@@ -19,7 +19,6 @@ O que deseja fazer?
     0 - Atualizar ( Receber enquetes )
     1 - Criar enquete
     2 - Consultar enquete
-    3 - Checar se alguma enquete expirou
 """)
 
         if resp == "1":
@@ -74,9 +73,6 @@ O que deseja fazer?
         elif resp == "2":
             titulo = input("Qual o nome da enquete que quer consultar?\n")
             cliente.ver_enquete(titulo)
-
-        elif resp == "3":
-            server.checar_enquetes_expiradas()
 
         else:
             time.sleep(15)
